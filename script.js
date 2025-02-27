@@ -1,15 +1,67 @@
-//Init an array to store tasks
+// Initialize an array to store tasks
 let tasks = []
 
-//add an event listener to add tasks to the add task btn
-document.getElementById('addTaskBtn').addEventListener('click', function) {
-//storing text value from input box as a variable 'taskInput'
-let taskInput = document.getElementById('taskInput').value
-//checks if value in the textbox is empty if it is wont activate  also clears textbox when clicking enter
-if(taskInput)
+// Add an event listener to add tasks TO the Add Task Button
+document.getElementById('addTaskBtn').addEventListener('click', function () {
+    // Storing text value from input box as a variable 'taskInput'
+    let taskInput = document.getElementById('taskInput').value
 
-    tasks.push(taskInput)
-    document.getElementById ('taskInput').value = ''
+    // Checks if there is a Truthy or Falsy Statement
+    if (taskInput) {
+        // Add the task to the tasks array
+        tasks.push(taskInput)
 
-    displayTasks()
+        // Clear the input field after adding the task
+        document.getElementById('taskInput').value = ''
+
+        // Call function to update the task List display
+        displayTasks()
+    }
+})
+
+// Function to display the tasks[] array in the UL
+function displayTasks() {
+    // Select the unordered list (taskList) in the HTML
+    let taskList = document.getElementById('taskList')
+
+    // Clear the existing task list before updating it
+    taskList.innerHTML = ''
+
+    // Loop through each task in the array and create a list item
+    tasks.forEach((task, index) => {
+        // Create a new <li> element for each task
+        let li = document.createElement('li')
+
+        // Add Bootstrap classes for styling
+        li.classList.add(
+            'list-group-item',
+            'd-flex',
+            'justify-content-between',
+            'align-items-center'
+        )
+
+        //Set the inner HTML of the <li> element with task text and a remove button
+        li.innerHTML = `${task} <button class='btn btn-dark btn-sm' onclick='removeTask(${index})'>√</button>`
+
+        // Append the new task to the task list
+        taskList.appendChild(li)
+    })
 }
+
+// Function to remove a task from the list when the "√" button is clicked
+function removeTask(index) {
+    // Remove the task at the given index from the array
+    tasks.splice(index, 1)
+
+    // Call the function to update the task list display
+    displayTasks()
+
+}
+
+//Add event listener for clear
+document.getElementById('clearTaskBtn').addEventListener('click', function() {
+    //Empty all tasks
+    tasks = []
+    //Display cleared list
+    displayTasks()
+})
